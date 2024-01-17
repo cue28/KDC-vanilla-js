@@ -3,6 +3,7 @@ console.log("app is running!");
 import Loading from './Loading.js';
 import DarkModeToggle from './DarkModeToggle.js';
 import SearchInput from './SearchInput.js';
+import Banner from './Banner.js';
 import SearchResult from './SearchResult.js';
 import ImageInfo from './ImageInfo.js';
 import api from './api.js';
@@ -31,9 +32,9 @@ class App {
 
     this.searchInput = new SearchInput({
       $target,
-      onSearch: keyword => {
+      onSearch: (keyword, limit) => {
         this.Loading.show();
-        api.fetchCats(keyword).then(({ data }) => {
+        api.fetchCatsWithLimit(keyword, C).then(({ data }) => {
           this.setState({
             items: data,
             page: this.DEFAULT_PAGE,
@@ -53,6 +54,10 @@ class App {
           this.Loading.hide(data);
         });
       }
+    });
+
+    this.banner = new Banner({
+      $target,
     });
 
     this.searchResult = new SearchResult({

@@ -18,6 +18,15 @@ class ImageInfo {
   setState(nextData) {
     this.data = nextData;
     this.render();
+    this.setFade(nextData.visible);
+  }
+
+  setFade(visible) {
+    if (visible) {
+      this.$imageInfo.classList.add('show');
+    } else {
+      this.$imageInfo.classList.remove('show');
+    }
   }
 
   async showDetail(cat) {
@@ -55,7 +64,8 @@ class ImageInfo {
             <div>태생: ${origin}</div>
           </div>
         </div>`;
-      this.$imageInfo.style.display = "block";
+      // CSS 에서 제어
+      // this.$imageInfo.style'.display = "block";
 
       // keypress, keydown, keyup 차이 리서치
       document.addEventListener('keydown', (e) => {
@@ -69,7 +79,8 @@ class ImageInfo {
         }
       })
     } else {
-      this.$imageInfo.style.display = "none";
+      // CSS 에서 제어
+      // this.$imageInfo.style.display = "none";
     }
   }
 }
