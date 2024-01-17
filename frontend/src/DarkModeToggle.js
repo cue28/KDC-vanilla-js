@@ -1,21 +1,34 @@
-const TEMPLATE = '<input type="text">';
+class DarkModeToggle {
+  isDarkMode = null;
 
-class SearchInput {
-  constructor({ $target, onSearch }) {
-    const $searchInput = document.createElement("input");
-    this.$searchInput = $searchInput;
-    this.$searchInput.placeholder = "고양이를 검색해보세요.|";
+  constructor({ $target }) {
+    const $wrapper = document.createElement('section');
+    const $darkModeToggle = document.createElement("input");
+    this.$darkModeToggle = $darkModeToggle;
+    this.$darkModeToggle.type= "checkbox";
 
-    $searchInput.className = "SearchInput";
-    $target.appendChild($searchInput);
+    $darkModeToggle.className = "DarkModeToggle";
+    $target.appendChild($wrapper);
+    $wrapper.appendChild($darkModeToggle);
 
-    $searchInput.addEventListener("keyup", e => {
-      if (e.keyCode === 13) {
-        onSearch(e.target.value);
-      }
+    $darkModeToggle.addEventListener("change", e => {
+      this.setColorMode(e.target.checked)
     });
 
-    console.log("SearchInput created.", this);
+    this.initColorMode();
   }
-  render() {}
+
+  initColorMode() {
+    // 초기화
+    // isDarkMode state, check box status, html attr
+    this.isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    this.$darkModeToggle.checked = this.isDarkMode;
+    this.setColorMode(this.isDarkMode)
+  }
+
+  setColorMode(isDarkMode) {
+    document.documentElement.setAttribute('color-mode', isDarkMode ? 'dark' : 'light');
+  }
 }
+
+export default DarkModeToggle;

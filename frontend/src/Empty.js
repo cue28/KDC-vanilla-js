@@ -1,28 +1,25 @@
-class Loading {
-  $loading = null;
+class Empty {
+  $empty = null;
   data = null;
 
   constructor({ $target }) {
-    const $loading = document.createElement('div');
-    this.$loading = $loading;
-    $target.appendChild(this.$loading);
+    const $empty = document.createElement('div');
+    this.$empty = $empty;
+    this.$empty.className = "Empty";
+    $target.appendChild(this.$empty);
 
     this.data = {
-      show: false
+      show: false,
+      isNUll: false
     }
 
     this.render();
   }
 
-  show() {
+  show(data) {
     this.setState({
-      show: true
-    })
-  }
-
-  hide() {
-    this.setState({
-      show: false
+      show: data === null || data.length === 0,
+      isNull: data === null
     })
   }
 
@@ -33,16 +30,22 @@ class Loading {
 
  render() {
     if (this.data.show) {
-      this.$loading.innerHTML = `
-      <div class="Loading">
-        <p>🔥 Loading... 🔥</p>
-      </div>
-    `;
+      this.$empty.style.display = 'block';
+      if (this.data.isNUll) {
+        this.$empty.innerHTML = `
+          <p>요청 실패</p>
+        `;
+      } else {
+        this.$empty.innerHTML = `
+          <p>결과가 없습니다.</p>
+        `;
+      }
     } else {
       // innerHTML 초기화
-      this.$loading.innerHTML = '';
+      this.$empty.style.display = 'none';
+      this.$empty.innerHTML = '';
     }
  }
 }
 
-export default Loading;
+export default Empty;

@@ -1,32 +1,48 @@
-class DarkModeToggle {
-  isDarkMode = null;
+class Loading {
+  $loading = null;
+  data = null;
 
   constructor({ $target }) {
-    const $wrapper = document.createElement('section');
-    const $darkModeToggle = document.createElement("input");
-    this.$darkModeToggle = $darkModeToggle;
-    this.$darkModeToggle.type= "checkbox";
+    const $loading = document.createElement('div');
+    this.$loading = $loading;
+    $target.appendChild(this.$loading);
 
-    $darkModeToggle.className = "DarkModeToggle";
-    $target.appendChild($wrapper);
-    $wrapper.appendChild($darkModeToggle);
+    this.data = {
+      show: false
+    }
 
-    $darkModeToggle.addEventListener("change", e => {
-      this.setColorMode(e.target.checked)
-    });
-
-    this.initColorMode();
+    this.render();
   }
 
-  initColorMode() {
-    // 초기화
-    // isDarkMode state, check box status, html attr
-    this.isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    this.$darkModeToggle.checked = this.isDarkMode;
-    this.setColorMode(this.isDarkMode)
+  show() {
+    this.setState({
+      show: true
+    })
   }
 
-  setColorMode(isDarkMode) {
-    document.documentElement.setAttribute('color-mode', isDarkMode ? 'dark' : 'light');
+  hide() {
+    this.setState({
+      show: false
+    })
   }
+
+  setState(nextData) {
+    this.data = nextData;
+    this.render();
+  }
+
+ render() {
+    if (this.data.show) {
+      this.$loading.innerHTML = `
+      <div class="Loading">
+        <p>🔥 Loading... 🔥</p>
+      </div>
+    `;
+    } else {
+      // innerHTML 초기화
+      this.$loading.innerHTML = '';
+    }
+ }
 }
+
+export default Loading;
